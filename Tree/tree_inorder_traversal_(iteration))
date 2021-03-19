@@ -1,0 +1,38 @@
+class Solution {
+    static class Pair{
+        TreeNode node;
+        int state;
+        Pair(TreeNode node,int state){
+            this.node = node;
+            this.state = state;
+        }
+    }
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<Pair> s = new Stack<>();
+        s.push(new Pair(root,0));
+        List<Integer> list = new ArrayList<>();
+        if(root == null){
+            return list;
+        }
+        while(s.size()>0){
+            Pair cur = s.peek();
+            
+            if(cur.state == 0){
+                if(cur.node.left!=null){
+                    s.push(new Pair(cur.node.left,0));
+                }
+                cur.state++;
+            }else if(cur.state ==1){
+                if(cur.node.right!=null){
+                    s.push(new Pair(cur.node.right,0));
+                }
+                list.add(cur.node.val);
+                cur.state++;
+            }else{
+                s.pop();
+            }
+        }
+        
+        return list;
+    }
+}
