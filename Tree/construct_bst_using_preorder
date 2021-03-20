@@ -1,5 +1,5 @@
 public static Node constructTree(int pre[], int size) {
-    //Your code here
+    
     return construct(pre,0,size-1);
 } 
 
@@ -22,4 +22,6 @@ public static Node constructTree(int pre[], int size) {
         root.right = construct(pre,index,pE);
         
         return root;
+
+
     }
