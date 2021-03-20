@@ -1,0 +1,36 @@
+class Solution
+{ 
+    
+    Node bTreeToClist(Node root)
+    {
+        Stack<Node> s = new Stack<>();
+        Node cur = root;
+        Node pre = null;
+        Node head = null;
+        while(!s.empty() || cur!=null){
+            if(cur!=null){
+                s.push(cur);
+                cur = cur.left;
+            }else{
+                Node i = s.pop();
+                if(pre == null){
+                    pre = i;
+                    head = pre;
+                }else{
+                    pre.right = i;
+                    i.left = pre;
+                    pre = i;
+                    
+                }
+                
+                cur = i.right;
+            }
+        }
+        pre.right = head;
+        head.left = pre;
+        return head;
+        //your code here
+    }
+    
+}
+    

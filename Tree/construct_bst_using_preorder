@@ -1,0 +1,25 @@
+public static Node constructTree(int pre[], int size) {
+    //Your code here
+    return construct(pre,0,size-1);
+} 
+
+    public static Node construct(int pre[],int pS, int pE){
+        if(pS>pE || pS>pre.length){
+            return null;
+        }
+        if(pS == pE){
+            return new Node(pre[pS]);
+        }
+        int r = pre[pS];
+        Node root = new Node(r);
+        int index = pS;
+        
+        while(index<=pE && pre[index]<= r  ){
+            index++;
+        }
+        
+        root.left = construct(pre,pS+1,index-1);
+        root.right = construct(pre,index,pE);
+        
+        return root;
+    }

@@ -1,0 +1,39 @@
+class GfG {
+    public int evalTree(Node root) {
+        // Your code here.
+        if(root == null){
+            return 0;
+        }
+        if(root.left == null && root.right == null){
+            // System.out.println(Integer.parseInt(root.data));
+            return Integer.parseInt(root.data);
+        }
+        
+        int op1 = evalTree(root.left);
+        int op2 = evalTree(root.right);
+        // System.out.println(op1 + root.data + op2 );
+        int ans = operation(op1,op2,root.data);
+        // System.out.println(op1 + root.data + op2  + " = " + ans);
+        return ans;
+     
+    }
+
+    public static int operation(int o1,int o2,String oper){
+        
+        int ans = 0;
+        if(oper.equals("+")){
+            ans = o1+o2;
+        }else if( oper.equals("-") ){
+            ans = o1-o2;
+        }else if(oper.equals("/")){
+            ans = o1/o2;
+        }else{
+            ans = o1*o2;
+        }
+        
+        return ans;
+
+    }
+    
+    
+}
