@@ -1,0 +1,33 @@
+class GfG {
+    public static Tree convert(Node head, Tree node) {
+        
+        Deque<Tree> pq = new ArrayDeque<>();
+       if(head == null){
+           return null;
+       }
+        Node temp = head;
+        node = new Tree(temp.data);
+        pq.add(node);
+        temp = temp.next;
+        while(temp!=null){
+            
+            Tree cur = pq.peek();
+            if(cur.left==null){
+                cur.left = new Tree (temp.data);
+                pq.add(cur.left);
+                temp = temp.next;
+            }
+            else if(cur.right==null){
+                cur.right = new Tree (temp.data);
+                pq.add(cur.right);
+                temp = temp.next;
+            }else{
+                pq.remove();
+            }
+           
+    
+        }
+        
+        return node;
+    }
+}  
