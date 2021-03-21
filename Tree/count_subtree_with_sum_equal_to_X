@@ -1,0 +1,25 @@
+class Tree
+{   static int count = 0;
+    int countSubtreesWithSumX(Node root, int x)
+    {
+       int sumOfTree = helper(root,x);
+       
+       return count;
+    }
+    
+    static int helper(Node root, int x){
+         if(root == null){
+            return 0;
+        }
+        
+        int suml = helper(root.left,x);
+        int sumr = helper(root.right,x);
+	//Add your code here.
+	    int ts = suml+sumr+root.data;
+	    if(x == ts){
+	       count++;
+	    }
+	    System.out.println( root.data +":"+ts + " dd");
+	    return ts;
+    }
+}
