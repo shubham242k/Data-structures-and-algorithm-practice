@@ -1,0 +1,19 @@
+class Solution{
+    
+    // modify the BST and return its root
+    int sum = 0 ;
+    public Node modify(Node node){
+        if(node == null){
+            return null;
+        }
+        
+        node.right = modify(node.right);
+         sum += node.data;
+        
+         node.data = sum;
+        
+        node.left = modify(node.left);
+         return node;
+    }
+
+}

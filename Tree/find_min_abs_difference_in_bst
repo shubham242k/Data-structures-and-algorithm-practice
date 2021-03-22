@@ -1,0 +1,29 @@
+class Solution
+{
+    // Return the minimum absolute difference between any tree node and the integer K
+    static int maxDiff(Node  root, int k) 
+    { 
+        md = Integer.MAX_VALUE;
+        helper(root,k);
+        return md;
+    } 
+    static int md;
+    
+    static void helper(Node node,int k){
+        if(node == null){
+            return;
+        }
+        if(md>Math.abs(node.data-k)){
+            md = Math.abs(node.data-k);
+        }
+        if(k<node.data){
+            helper(node.left,k);
+        }else if(k>node.data){
+            helper(node.right,k);
+        }else{
+           
+            return;
+        }
+    }
+}
+
