@@ -1,0 +1,28 @@
+class Solution {
+   public static ArrayList<String> findPath(int[][] m, int n) {
+        ArrayList<String> l = new ArrayList<>();
+        boolean[][] vis = new boolean[n][n];
+	helper(l,0,0,m,vis,"");
+        return l;
+        
+}
+
+    public static void helper(ArrayList<String> l, int row,int col,int[][] m,boolean[][] vis,String s){
+    	if(row<0||col<0||row>=m.length||col>=m.length||m[row][col]==0||vis[row][col] == true){
+    		return;
+    	}
+    	if(row==m.length-1&&col==m.length-1){
+    		l.add(s);
+    		return;
+    	}
+        	vis[row][col] =true;
+        	helper(l,row+1,col,m,vis,s+"D");
+        	helper(l,row,col-1,m,vis,s+"L");
+        	helper(l,row,col+1,m,vis,s+"R");
+        	helper(l,row-1,col,m,vis,s+"U");
+            vis[row][col] =false;
+    
+    }
+
+
+}

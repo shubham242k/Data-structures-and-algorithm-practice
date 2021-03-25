@@ -1,0 +1,23 @@
+class Solution {
+    ArrayList<String> NBitBinary(int N) {
+        // code here
+        ArrayList<String> l = new ArrayList<>();
+        helper(l,N,0,0,"");
+        return l;
+    }
+    
+    public static void helper(ArrayList<String> l,int n,int ones,int zeros,String s){
+    	if(ones+zeros==n){
+    		l.add(s);
+    		return;
+        }
+        if(ones<=n){
+            helper(l,n,ones+1,zeros,s+"1");
+        }
+        if(zeros<ones){
+            helper(l,n,ones,zeros+1,s+"0");
+        }
+    
+    }
+
+}
