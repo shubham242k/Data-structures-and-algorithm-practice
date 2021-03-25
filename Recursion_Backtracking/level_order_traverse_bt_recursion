@@ -1,0 +1,46 @@
+class Spiral
+{
+      ArrayList<Integer> findSpiral(Node root) 
+      {
+           // Your code here
+           
+           ArrayList<Integer> l = new ArrayList<Integer>();
+           if(root ==null){
+               return l;
+           }
+           Stack<Node> ps = new Stack<>();
+           Stack<Node> cs = new Stack<>();
+           
+           ps.push(root);
+           helper(ps,cs,l,0);
+           return l;
+      }
+      
+      void helper(Stack<Node> ps,Stack<Node> cs,ArrayList<Integer> l,int level){
+          if(ps.empty()){
+              return;
+          }
+          while(!ps.empty()){
+               Node cn = ps.pop();
+              
+               if(level%2==0){
+                   if(cn.right!=null){
+                       cs.add(cn.right);
+                   }
+                   if(cn.left!=null){
+                       cs.add(cn.left);
+                   }
+               }else{
+                   if(cn.left!=null){
+                       cs.add(cn.left);
+                   }
+                   if(cn.right!=null){
+                       cs.add(cn.right);
+                   }
+               }
+               l.add(cn.data);
+          }
+         helper(cs,ps,l,level+1);
+          
+      }
+}
