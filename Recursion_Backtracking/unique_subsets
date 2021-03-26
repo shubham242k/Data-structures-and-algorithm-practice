@@ -1,0 +1,30 @@
+class solve{
+    
+    public static void printAllSubsetsHelper(int arr[],int start, int n, 
+        ArrayList<Integer> list, ArrayList <ArrayList <Integer>> res){ 
+        if(start>=n){
+            return;
+        }
+        
+        for(int i=start;i<n;){
+            list.add(arr[i]);
+            res.add (new ArrayList <Integer>(list));
+            printAllSubsetsHelper(arr, i+1, n, list, res);
+            int j = i+1;
+            while(j<n && arr[j]==arr[i]){
+                j++;
+            }
+            i = j;
+            list.remove(list.size()-1);
+        }
+        
+    }
+    
+    public static ArrayList <ArrayList <Integer>> AllSubsets(int arr[], int n){
+        ArrayList <ArrayList <Integer>> res = new ArrayList <ArrayList <Integer>> (0);
+        // res.add (new ArrayList <Integer>());
+        printAllSubsetsHelper(arr,0,n,new ArrayList<Integer>(), res);
+        return res;
+    }
+    
+}
