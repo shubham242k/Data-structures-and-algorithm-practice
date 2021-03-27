@@ -1,0 +1,49 @@
+class Solution{
+    static ArrayList<ArrayList<Integer>> nQueen(int n) {
+        // code here
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        helper(n,new ArrayList<>(),res,0);
+        return res;
+    }
+    
+    public static void helper(int n,ArrayList<Integer> subset,
+        ArrayList<ArrayList<Integer>> res,int row){
+        
+        if(row == n){
+            ArrayList<Integer> correct = new ArrayList<>();
+            for(int c : subset){
+                correct.add(c+1);
+            }
+            res.add(new ArrayList<>(correct));
+            return;
+        }
+        for(int i = 0;i<n;i++){
+            subset.add(row,i);
+            if(myQueenSafe(row,i,subset,n)){
+                helper(n,subset,res,row+1);
+            }
+            subset.remove(row);
+        }
+        
+    }
+    
+    public static boolean myQueenSafe(int row,int col,ArrayList<Integer> subset,int n){
+        for(int i = row-1;i>=0;i--){
+            if(subset.get(i) == col){
+                return false;
+            }
+        }
+        for(int i = row-1,j=col-1;i>=0&&j>=0;i--,j--){
+            if(subset.get(i) == j){
+                return false;
+            }
+        }
+        for(int i = row-1,j=col+1;i>=0&&j<=n;i--,j++){
+            if(subset.get(i) == j){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}

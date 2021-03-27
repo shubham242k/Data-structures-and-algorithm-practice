@@ -1,0 +1,29 @@
+class Solution{
+
+    static int nextHappy(int N){
+        // code here
+        boolean flag = false;
+        while(!flag){
+            N++;
+            flag = helper(N);
+            
+        }
+        
+        return N;
+    }
+    
+    static boolean helper(int n){
+        if(n==1 || n==7){
+            return true;
+        }if(n<10){
+            return false;
+        }
+  
+        int nn = 0;
+        while(n!=0){
+            nn += Math.pow((n%10),2);
+            n = n/10;
+        }
+        return  helper(nn);
+    }
+}
