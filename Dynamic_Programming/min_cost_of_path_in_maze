@@ -1,0 +1,41 @@
+ //memoization
+ public static int mcp_memo(int[][] maze,Integer[][] lu,int row,int col){
+        if(row == maze.length-1 && col == maze[0].length-1){
+            lu[row][col] = maze[row][col];
+            return maze[row][col];
+        }
+        if(row==maze.length || col == maze[0].length || row<0||col<0){
+            return Integer.MAX_VALUE;
+        }
+        if(lu[row][col]!=null){
+            return lu[row][col];
+        }
+        int costh = mcp(maze,lu,row,col+1);
+        int costv = mcp(maze,lu,row+1,col);
+        
+        lu[row][col] = Math.min(costv,costh) + maze[row][col];
+        return lu[row][col];
+        
+    }
+    //tabulation 
+    public static int mcp_tab(int[][] maze,Integer[][] lu){
+       
+        for(int i = lu.length-1 ;i>=0;i--){
+            for(int j = lu[0].length-1;j>=0;j--){
+                if(i==lu.length-1 && j == lu[0].length-1){
+                    lu[i][j] =maze[i][j];
+                }
+                else if(i==lu.length-1){
+                    lu[i][j] =maze[i][j] + lu[i][j+1];
+                }else if(j == lu[0].length-1){
+                    lu[i][j] =maze[i][j] + lu[i+1][j];
+                }else{
+                    lu[i][j] = Math.min(lu[i+1][j],lu[i][j+1]) + maze[i][j];
+                }
+            }
+        }
+        
+        return lu[0][0];
+    }
+
+}

@@ -1,0 +1,64 @@
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int m = s.nextInt();
+        int[][] gm = new int[n][m];
+        Integer[][] dp = new Integer[n][m];
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                gm[i][j] = s.nextInt();
+            }
+        }
+        gmp(gm,dp);
+        int max = Integer.MIN_VALUE;
+        for(int i = 0;i<n;i++){
+            max = Math.max(max,dp[i][0]);
+        }
+        
+        System.out.println(max);
+    
+    }
+    //memoization
+    public static int gmp(int[][] gm,Integer[][] dp,int row,int col){
+        
+        if(row<0 ||col<0||row==gm.length||col==gm[0].length){
+            return Integer.MIN_VALUE;
+        }
+        if(col == gm[0].length-1){
+            return gm[row][col];
+        }
+        if(dp[row][col] !=null){
+            return dp[row][col];
+        }
+        int ms = gmp(gm,dp,row,col+1);
+        int mu = gmp(gm,dp,row-1,col+1);
+        int md = gmp(gm,dp,row+1,col+1);
+        dp[row][col] = Math.max(ms,Math.max(mu,md)) + gm[row][col];
+        return  dp[row][col];
+    }
+    //tabulation
+      public static void gmp(int[][] gm,Integer[][] dp){
+       
+         for(int j = gm[0].length-1;j>=0;j--){
+            for(int i = 0;i<=gm.length-1;i++){
+                if(j == gm[0].length-1){
+                    dp[i][j] = gm[i][j];
+                }else if(i == 0){
+                    dp[i][j] = Math.max(dp[i][j+1],dp[i+1][j+1]) + gm[i][j];
+                }else if(i == gm.length-1){
+                    dp[i][j] = Math.max(dp[i][j+1],dp[i-1][j+1]) + gm[i][j];
+                }else{
+                    dp[i][j] = Math.max(dp[i][j+1],Math.max(dp[i-1][j+1],dp[i+1][j+1])) + gm[i][j];
+                }
+            }
+        }
+        
+       
+    }
+    
+    
+
+}
