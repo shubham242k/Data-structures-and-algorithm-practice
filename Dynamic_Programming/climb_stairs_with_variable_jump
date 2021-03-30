@@ -1,0 +1,36 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        
+        int n = s.nextInt();
+        int[] a = new int[n+1];
+         for(int i = n;i>=1;i--){
+            a[i] = s.nextInt();
+        }
+        System.out.println(csv(n,new int[n+1],a));
+    }
+    public static int csv(int n,int[] qb,int[] a){
+        if(n==0){
+            return 1;
+        }
+        if(n<0){
+            return 0;
+        }
+        
+        if(qb[n] !=0){
+            return qb[n];
+        }
+        int c = 0;
+        for(int i = 1;i<=a[n];i++){
+            c += csv(n-i,qb,a);
+        }
+        qb[n] = c;
+        return qb[n];
+    }
+
+}
