@@ -1,0 +1,25 @@
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[][] a = new int[n][3];
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<3;j++){
+                a[i][j] = s.nextInt();
+            }
+        }
+        int r=0,b=0,g=0;
+        for(int i = 0;i<a.length;i++){
+             int cr = Math.min(b,g) + a[i][0];
+             int cb = Math.min(r,g) + a[i][1];
+             int cg = Math.min(r,b) + a[i][2];
+             
+             g = cg;
+             r = cr;
+             b = cb;
+         
+        }
+        System.out.println(Math.min(g,Math.min(b,r)));
+    }
+}
