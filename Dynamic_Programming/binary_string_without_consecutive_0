@@ -1,0 +1,21 @@
+public class Main{
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        
+        int[][] d = new int[2][n+1];
+        d[0][0] = 0;
+        d[1][0] = 0;
+        d[0][1] = 1;
+        d[1][1] = 1;
+        for(int i = 2;i<d[0].length;i++){
+            d[0][i] = d[1][i-1];
+            d[1][i] = d[0][i-1] + d[1][i-1];
+            // System.out.println(d[0][i] +" " +d[1][i]);
+        }
+        System.out.println(d[0][n] + d[1][n]);
+    }
+
+}
