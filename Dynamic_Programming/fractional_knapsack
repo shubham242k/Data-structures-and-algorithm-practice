@@ -1,0 +1,39 @@
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[] val = new int[n];
+        int[] wts = new int[n];
+        
+        for(int i = 0;i<n;i++){
+            val[i] = s.nextInt();
+        }
+        for(int i = 0;i<n;i++){
+            wts[i] = s.nextInt();
+        }
+        int cap = s.nextInt();
+        double[][] d = new double[n+1][cap+1];
+        
+        for(int i = 0;i<d.length;i++){
+          
+            for(int j = 0;j<d[0].length;j++){
+                if(i == 0 || j == 0){
+                    d[i][j] = 0;
+                }else{  
+                    double valPerWt = val[i-1]/(double)wts[i-1];
+                    double max = 0;
+                    for(int k = 0;k<=j && k <= wts[i-1];k++){
+                        max = Math.max(max,d[i-1][j-k] + (k*valPerWt));
+                    }
+                    d[i][j] = max;
+                    
+                    
+                }
+                // System.out.println(d[i][j]);
+            }
+        }
+        
+        System.out.println(d[n][cap]);
+    }
+}
