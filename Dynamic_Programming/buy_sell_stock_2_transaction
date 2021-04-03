@@ -1,0 +1,49 @@
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[] a = new int[n];
+        for(int i = 0;i<n;i++){
+            a[i] = s.nextInt();
+        }
+        int ldbc = a[0];
+        int max = 0;
+        int[] dpl = new int[n];
+        for(int i = 1;i<n;i++){
+            if(a[i] < ldbc){
+                ldbc = a[i];
+            }
+            max = a[i] - ldbc;
+            if(max>dpl[i-1]){
+                dpl[i] = max;
+            }else{
+                dpl[i] = dpl[i-1];
+            }
+        }
+        
+        int mdac = a[n-1];
+         max = 0;
+        int[] dpr = new int[n];
+        for(int i = n-2;i>=0;i--){
+            if(a[i]>mdac){
+                mdac = a[i];
+            }
+            max = mdac - a[i];
+            if(max<dpr[i+1]){
+                dpr[i] = dpr[i+1];
+            }else{
+                dpr[i] = mdac - a[i];
+            }
+        }
+        int op = 0;
+        for(int i = 0;i<n;i++){
+            if(dpl[i] + dpr[i] > op){
+                op = dpl[i] + dpr[i];
+            }
+        }
+        System.out.println(op);
+    }
+
+}
