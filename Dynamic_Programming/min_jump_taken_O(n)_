@@ -1,0 +1,28 @@
+class Solution{
+    static int minJumps(int[] arr){
+        // your code here
+        int steps = arr[0];
+        int jump = 1;
+        int maxR = arr[0];
+        if(arr[0] == 0){
+            return -1;
+        }
+        for(int i = 1;i<arr.length;i++){
+            if(i == arr.length-1){
+                return jump;
+            }
+            maxR = Math.max(maxR,arr[i] + i);
+            steps--;
+            
+            if(steps == 0){
+                jump++;
+                if(i>=maxR){
+                    return -1;
+                }
+                steps = maxR - i;
+            }
+        }
+        
+        return -1;
+    }
+}
