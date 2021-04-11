@@ -1,0 +1,26 @@
+class Solution {
+    public int countVowelStrings(int n) {
+        int su = 1;
+        int so = 1;
+        int si = 1;
+        int se = 1;
+        int sa = 1;
+        
+        for(int i = 2;i<=n;i++){
+            int nsu = su;
+            int nso = nsu + so;
+            int nsi = nso + si;
+            int nse = nsi + se;
+            int nsa = nse + sa;
+            
+            su = nsu;
+            so = nso;
+            si = nsi;
+            se = nse;
+            sa = nsa;
+        
+        }
+        
+        return (sa+se+si+so+su);
+    }
+}
