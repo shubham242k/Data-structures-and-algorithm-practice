@@ -1,0 +1,23 @@
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        return helper(head,null);
+    }
+    
+    public static TreeNode helper(ListNode head,ListNode tail){
+        ListNode slow = head;
+        ListNode fast = head;
+        if(head == tail){
+            return null;
+        }
+        while(fast!=tail && fast.next!=tail){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        
+        TreeNode nn = new TreeNode(slow.val);
+        nn.left = helper(head,slow);
+        nn.right = helper(slow.next,tail);
+        return nn;
+    }
+}
