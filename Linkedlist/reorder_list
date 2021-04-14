@@ -1,0 +1,41 @@
+class Solution {
+    public void reorderList(ListNode head) {
+        ListNode s = head;
+        ListNode f = head;
+        while(f!=null && f.next!=null){
+            f  = f.next.next;
+            s = s.next;
+        }
+        
+        ListNode secondHead = reverseSecondList(s.next);
+        s.next = null;
+        merge(head,secondHead);
+        
+    }
+    
+    public ListNode reverseSecondList(ListNode head){
+        if(head==null || head.next==null){
+            return head;
+        }
+        
+        ListNode last = reverseSecondList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return last;
+    }
+    
+   public ListNode merge(ListNode fhead,ListNode shead){
+       if(fhead == null && shead == null){
+           fhead.next = shead;
+           return fhead;
+       }else if(shead == null){
+           return fhead;
+       }
+        
+       ListNode curr = merge(fhead.next,shead.next);
+       fhead.next = shead;
+       shead.next = curr;
+       return fhead;
+   }
+    
+}
