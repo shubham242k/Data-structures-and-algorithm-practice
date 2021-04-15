@@ -1,0 +1,28 @@
+class Solution {
+    public int calPoints(String[] a) {
+        Stack<Integer> stack = new Stack<>();
+        int sum = 0;
+        for(int i = 0;i<a.length;i++){
+            if(a[i].equals("C")){
+                sum -= stack.pop();
+            }else if(a[i].equals("D")){
+                int d = stack.peek() * 2;
+                sum+=d;
+                stack.push(d);
+            }else if(a[i].equals("+")){
+                int last = stack.pop();
+                int sLast = stack.pop();
+                int add = last + sLast;
+                stack.push(sLast);
+                stack.push(last);
+                stack.push(add);
+                sum+=add;
+            }else{
+                stack.push(Integer.parseInt(a[i]));
+                sum += Integer.parseInt(a[i]);
+            }
+        }
+        
+        return sum;
+    } 
+}
