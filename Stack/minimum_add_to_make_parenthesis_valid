@@ -1,0 +1,41 @@
+class Solution {
+    public int minAddToMakeValid(String S) {
+     
+        int nc = 0;
+        int no = 0;
+        
+        for(char ch : S.toCharArray()){
+            if(ch == '('){
+                nc++;
+            }else if(nc>0){
+                nc--;
+            }else{
+                no++;
+            }
+        }
+        return nc+no;
+    }
+}
+
+//using stack
+
+class Solution {
+    public int minAddToMakeValid(String S) {
+        Stack<Character> stack = new Stack<>();
+        int count = 0;
+        for(char ch : S.toCharArray()){
+            if(ch == '('){
+                stack.push(ch);
+            }else{
+                if(stack.empty() || stack.peek() != '('){
+                    count++;
+                }else{
+                    stack.pop();
+                }
+            }
+        }
+        
+        count += stack.size();
+        return count;
+    }
+}
