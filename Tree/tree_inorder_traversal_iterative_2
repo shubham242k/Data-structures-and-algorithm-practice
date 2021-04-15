@@ -13,7 +13,7 @@ class Tree
                 
                 cur = cur.left;
             }else{
-                Node p = s.peek();
+                Node p = s.pop();
                 
                 cur = p.right;
                 list.add(p.data);
