@@ -1,0 +1,27 @@
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return helper(inorder,postorder,0,inorder.length-1,postorder.length-1);
+    }
+    public TreeNode helper(int[] ino, int[] posto, int ins,int ine,int postp){
+        if(ine == ins){
+            return new TreeNode(ino[ine]);
+        }
+        if(ins>ine){
+            return null;
+        }
+        int index = ins;
+        for(int i = ins;i<=ine;i++){
+            if(ino[i] == posto[postp]){
+                index = i;
+                break;
+            }
+        }
+        
+        TreeNode root = new TreeNode(posto[postp]);
+        root.right = helper(ino,posto,index+1,ine,postp-1);
+        root.left = helper(ino,posto,ins,index-1,postp - (ine - index)-1);
+        
+        return root;
+        
+    }
+}
