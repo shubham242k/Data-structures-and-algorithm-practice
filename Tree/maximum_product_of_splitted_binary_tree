@@ -1,0 +1,22 @@
+class Solution {
+    static long sum = 0;
+    static long maxp = 0;
+    public int maxProduct(TreeNode root) {
+        sum = helper(root);
+        maxp = Integer.MIN_VALUE;
+        helper(root);
+        return   (int)(maxp % (int)(1e9 + 7));
+    }
+    public long helper(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        long suml = helper(root.left);
+        long sumr = helper(root.right);
+        long sumi = suml + sumr + root.val;
+        maxp = Math.max(maxp,sumi * (sum - sumi));
+         System.out.println(sumi * (sum - sumi));
+        return sumi;
+    }
+    
+}
