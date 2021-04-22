@@ -1,0 +1,21 @@
+class Solution {
+    public int sumEvenGrandparent(TreeNode root) {
+      
+        return helper(root,null,null);
+        
+    }
+  
+    
+    public int helper(TreeNode root,TreeNode p,TreeNode gp){
+        if(root == null ){
+            return 0;
+        }
+        int sum = 0;
+        if(gp!=null && gp.val%2==0){
+            sum+= root.val;
+        }
+        return  helper(root.left,root,p) + sum + helper(root.right,root,p);
+       
+        
+    }
+}
