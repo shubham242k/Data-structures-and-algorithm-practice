@@ -1,0 +1,30 @@
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if(root == null) return new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        s.push(root);
+        int l = 0;
+         List<List<Integer>> ml = new ArrayList<>();
+        while(s.size()>0){
+             Stack<TreeNode> cs = new Stack<>();
+            List<Integer> ll = new ArrayList<>();
+            
+            for(int i = s.size()-1;i>=0;i--){
+                TreeNode cur = s.pop();
+                ll.add(cur.val);
+                if(l%2 == 0){
+                    if(cur.left!=null)cs.push(cur.left);
+                    if(cur.right!=null)cs.push(cur.right);
+                }else{
+                    if(cur.right!=null)cs.push(cur.right);
+                    if(cur.left!=null)cs.push(cur.left);
+                }
+            }
+            s = cs;
+         
+            ml.add(ll);
+            l++;
+        }
+        return ml;
+    }
+}
