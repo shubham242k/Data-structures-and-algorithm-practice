@@ -1,0 +1,16 @@
+class Solution {
+    TreeNode prev = null;
+    public TreeNode convertBST(TreeNode root) {
+        if(root == null){
+            return null;
+        }
+        
+        convertBST(root.right);
+        if(prev!=null){
+             root.val = root.val + prev.val;     
+        }
+        prev = root;
+        convertBST(root.left);
+        return root;
+    }
+}
