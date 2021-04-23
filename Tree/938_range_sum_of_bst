@@ -1,0 +1,25 @@
+class Solution {
+    int sum = 0;
+    int low;
+    int high;
+    public int rangeSumBST(TreeNode root, int l, int h) {
+        low = l;
+        high = h;
+        helper(root);
+        return sum;
+    }
+    public void helper(TreeNode root){
+        if(root == null) return;
+        if(root.val>=low && root.val<=high){
+            sum += root.val;
+            helper(root.left);
+            helper(root.right);
+        }else if(root.val<low){
+           helper(root.right);
+        }else if(root.val>high){
+             helper(root.left);
+        }
+        
+    }
+    
+}
