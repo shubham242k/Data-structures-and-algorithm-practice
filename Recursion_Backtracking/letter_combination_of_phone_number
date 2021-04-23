@@ -1,0 +1,25 @@
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        String[] codes = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        List<String> ml  = new ArrayList<>();
+        if(digits.length()==0) return new ArrayList<>(); 
+        helper(digits,new StringBuilder(),0,ml,codes);
+        return ml;
+    }
+    
+    
+    public void helper(String digits,StringBuilder decode,int index,List<String> ml,String[] codes){
+        if(digits.length() == index){
+            ml.add(decode.toString());
+            return;
+        }
+        
+        String posal = codes[Character.getNumericValue(digits.charAt(index))];
+        int length = digits.length();
+        for(char ch : posal.toCharArray()){
+            decode.append(ch);
+            helper(digits,decode,index+1,ml,codes);
+            decode.deleteCharAt(decode.length()-1);
+        }
+    }
+}
