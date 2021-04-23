@@ -1,0 +1,21 @@
+class Solution {
+    public int findTilt(TreeNode root) {
+        helper(root);
+        return newsum;
+    }
+    
+    int newsum = 0;
+    
+    public int helper(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        
+        int suml = helper(root.left);
+        int sumr = helper(root.right);
+        int val = root.val;
+        root.val = Math.abs(suml - sumr);
+        newsum += root.val;
+        return suml + sumr + val;
+    }
+}
