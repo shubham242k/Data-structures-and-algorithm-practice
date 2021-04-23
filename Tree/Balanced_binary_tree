@@ -1,0 +1,24 @@
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        f = true;
+        helper(root);
+        return f;
+    }
+    
+   static boolean f;
+    
+    public int helper(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        
+        int lp = helper(root.left);
+        int rp = helper(root.right);
+         
+         if( Math.abs(lp - rp)>1){
+             f = false;
+         }
+        return Math.max(lp,rp) + 1;
+        
+    }
+}
