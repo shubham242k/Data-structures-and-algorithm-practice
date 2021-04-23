@@ -1,0 +1,97 @@
+//someone else
+class Solution {
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        return deep(root).node;
+    }
+    
+    class Pair{
+        int d;
+        TreeNode node;
+    }
+    
+    public Pair deep(TreeNode root){
+        if(root == null){
+            Pair bp = new Pair();
+            bp.d = 0;
+            bp.node = null;
+            return bp;
+        }
+        
+        Pair lp = deep(root.left) , rp = deep(root.right);
+        int dl = lp.d;
+        int dr = rp.d;
+        Pair mp = new Pair();
+        mp.d = Math.max(dl,dr) + 1;
+        mp.node = dl == dr?root:dl>dr?lp.node:rp.node;
+        return mp;
+    }
+}
+
+
+//my solution
+class Solution {
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        depthhelper(root,0);
+        List<TreeNode> lfl = listfromleft(root,0);
+        List<TreeNode> lfr = listfromright(root,0);
+        int i = 0;
+        while(i<lfl.size() && lfl.get(i) != lfr.get(i)){
+            i++;
+        }
+        return lfl.get(i);
+    }
+    int md = 0;
+    public void depthhelper(TreeNode root,int d){
+        if(root == null) return;
+        
+        if(d>md) md = d;
+        depthhelper(root.left,d+1);
+        depthhelper(root.right,d+1);
+    }
+    
+    public List<TreeNode> listfromleft(TreeNode root,int depth){
+        if(root == null){
+            return null;
+        }
+        
+        if(depth == md){
+            List<TreeNode> l= new ArrayList<>();
+            l.add(root);
+            return l;
+        }
+        List<TreeNode> ll = listfromleft(root.left,depth+1);
+        if(ll!=null){
+            ll.add(root);
+            return ll;
+        }
+        List<TreeNode> rl = listfromleft(root.right,depth+1);
+        if(rl!=null){
+            rl.add(root);
+            return rl;
+        }
+        
+        return null;
+    }
+     public List<TreeNode> listfromright(TreeNode root,int depth){
+        if(root == null){
+            return null;
+        }
+        
+        if(depth == md){
+            List<TreeNode> l= new ArrayList<>();
+            l.add(root);
+            return l;
+        }
+        List<TreeNode> rl = listfromright(root.right,depth+1);
+        if(rl!=null){
+            rl.add(root);
+            return rl;
+        }
+        List<TreeNode> ll = listfromright(root.left,depth+1);
+        if(ll!=null){
+            ll.add(root);
+            return ll;
+        }
+        return null;
+    }
+}
