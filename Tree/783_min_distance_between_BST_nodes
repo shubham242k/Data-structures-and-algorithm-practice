@@ -1,0 +1,15 @@
+int min = Integer.MAX_VALUE;
+Integer pre = null;
+public int minDiffInBST(TreeNode root) {
+    check(root);
+    return min;
+}
+
+private void check(TreeNode node) {
+    if (node == null) return;
+    check(node.left);
+    if (pre != null)
+        min = Math.min(min, node.val - pre);
+    pre = node.val;
+    check(node.right);
+}
