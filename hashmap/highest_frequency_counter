@@ -1,0 +1,27 @@
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        String str = s.nextLine();
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(char ch : str.toCharArray()){
+            if(map.containsKey(ch)){
+                map.put(ch,map.get(ch)+1);
+            }else{
+                map.put(ch,1);
+            }
+        }
+        char mf=str.charAt(0) ;
+        int m = Integer.MIN_VALUE;
+        for(Character key : map.keySet()){
+            if(m<map.get(key)){
+                m = map.get(key);
+                mf = key;
+            }
+        }
+        
+        System.out.println(mf);
+    }
+
+}
