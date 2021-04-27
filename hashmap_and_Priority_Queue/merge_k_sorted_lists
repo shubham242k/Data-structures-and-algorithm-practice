@@ -1,0 +1,54 @@
+public class Main {
+   public static ArrayList<Integer> mergeKSortedLists(ArrayList<ArrayList<Integer>> lists){
+        ArrayList<Integer> rv = new ArrayList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        // HashMap<Integer,Integer> m = new HashMap<>();
+        
+        for(int i = 0; i<lists.size();i++){
+         
+            pq.add(lists.get(i).get(0));
+        }
+        while(pq.size()>0){
+            int val = pq.remove();
+            rv.add(val);
+            for(int i = 0;i<lists.size();i++){
+                ArrayList<Integer> l = lists.get(i);
+                if(val == l.get(0)){
+                    l.remove(0);
+                    if(l.size()>0){
+                        pq.add(l.get(0));
+                    }else{
+                        lists.remove(i);
+                    }
+                }
+            }
+        }
+      // write your code here
+
+      return rv;
+   }
+
+   public static void main(String[] args) throws Exception {
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      int k = Integer.parseInt(br.readLine());
+      ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+      for(int i = 0; i < k; i++){
+         ArrayList<Integer> list = new ArrayList<>();
+
+         int n = Integer.parseInt(br.readLine());
+         String[] elements = br.readLine().split(" ");
+         for(int j = 0; j < n; j++){
+            list.add(Integer.parseInt(elements[j]));
+         }
+
+         lists.add(list);
+      }
+
+      ArrayList<Integer> mlist = mergeKSortedLists(lists);
+      for(int val: mlist){
+         System.out.print(val + " ");
+      }
+      System.out.println();
+   }
+
+}
