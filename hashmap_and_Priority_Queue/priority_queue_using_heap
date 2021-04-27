@@ -1,0 +1,106 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static class PriorityQueue {
+    ArrayList<Integer> data;
+   
+    public PriorityQueue() {
+      data = new ArrayList<>();
+      
+    }
+
+    public void add(int val) {
+        data.add(val);
+      
+        int l = (data.size()-1);
+        int i = (l-1)/2;
+        while(i>=0 && data.get(l) < data.get(i)){
+            data.set(l,data.get(i));
+            data.set(i,val);
+            l = i;
+            i = (i-1)/2;
+        }
+        // for(int i = (size-1)/2;i>=0;i--){
+        //     maxHeapify(i); 
+        // }
+      // write your code here
+      
+    }
+
+    public int remove() {
+      // write your code here
+      if(data.size()!=0){
+        int val = data.get(0);
+        data.set(0,data.get(data.size()-1));
+        maxHeapify(0);
+        data.remove(data.size()-1); 
+        return val;
+        }
+        System.out.println("Underflow");
+        return -1;
+    }
+
+    public int peek() {
+        if(data.size() == 0){
+            System.out.println("Underflow");
+            return -1;
+        }
+        return data.get(0);
+      // write your code here
+    }
+
+    public int size() {
+        return data.size();
+      // write your code here
+    }
+    
+    public  void maxHeapify(int i){
+        int lci = i*2+1;
+        int rci = i*2+2;
+        int min = i;
+        // System.out.println(lci + " " + rci);
+        if(lci < data.size() && data.get(lci)<data.get(min)){
+            min = lci;
+        }
+        if(rci < data.size() && data.get(rci)<data.get(min)){
+            min = rci;
+        }
+        // System.out.println(min+ " " );
+        if(min != i){
+            int temp = data.get(min);
+            data.set(min,data.get(i));
+            data.set(i,temp);
+            maxHeapify(min);
+        }
+        
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    PriorityQueue qu = new PriorityQueue();
+
+    String str = br.readLine();
+    while (str.equals("quit") == false) {
+      if (str.startsWith("add")) {
+        int val = Integer.parseInt(str.split(" ")[1]);
+        qu.add(val);
+      } else if (str.startsWith("remove")) {
+        int val = qu.remove();
+        if (val != -1) {
+          System.out.println(val);
+        }
+      } else if (str.startsWith("peek")) {
+        int val = qu.peek();
+        if (val != -1) {
+          System.out.println(val);
+        }
+      } else if (str.startsWith("size")) {
+        System.out.println(qu.size());
+      }
+      str = br.readLine();
+    }
+  }
+}
