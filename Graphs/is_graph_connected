@@ -43,11 +43,10 @@ public class Main {
         }
         
         System.out.println(true);
-      // write your code here
    }
    
     public static void gcc(ArrayList<Edge>[] graph, int src,boolean[] vis){
-    //   l.add(src);
+    
        vis[src] = true;
        for(Edge e : graph[src]){
            if(vis[e.nbr] == false){
