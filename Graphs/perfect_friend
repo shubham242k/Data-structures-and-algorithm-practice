@@ -1,0 +1,72 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+   public static class Edge{
+       int v;
+       int n;
+       Edge(int v,int n){
+           this.v = v;
+           this.n = n;
+       }
+   }
+
+   public static void main(String[] args) throws Exception {
+      Scanner s= new Scanner(System.in);
+
+      int n = s.nextInt();
+      int k = s.nextInt();
+      
+      
+      ArrayList<Edge>[] graph = new ArrayList [n];
+      for(int i = 0;i<n;i++){
+        graph[i] = new ArrayList<>();  
+      }
+      for(int i = 0;i<k;i++){
+        int vt = s.nextInt();
+        int nb = s.nextInt();
+        graph[vt].add(new Edge(vt,nb));
+        graph[nb].add(new Edge(nb,vt));
+      }
+      
+      ArrayList<Integer> counts = new ArrayList<>();
+      boolean[] vis = new boolean[n];
+      int sum = 0;
+      for(int i = 0;i<n;i++){
+          if(vis[i] == false){
+              count = 0;
+              friend(graph,i,vis);
+              counts.add(count);
+              sum +=count;
+          }
+      }
+      
+      System.out.println(count(counts,sum));
+      // write your code here
+   }
+   
+   static int count;
+   
+   public static void friend(ArrayList<Edge>[] graph,int src,boolean[] vis){
+       
+       vis[src] = true;
+       count++;
+       for(Edge e : graph[src]){
+           if(vis[e.n] == false){
+                friend(graph,e.n,vis);
+            }
+       }
+   }
+   
+   public static int count(ArrayList<Integer> c,int sum){
+       int ans = 0;
+      
+       for(int i = 0;i<c.size();i++){
+           sum -= c.get(i);
+           int mul = sum * c.get(i);
+           ans += mul;
+       }
+       return ans;
+   }
+
+}
