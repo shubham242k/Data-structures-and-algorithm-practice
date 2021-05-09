@@ -1,0 +1,65 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+ {
+	public static void main (String[] args)
+	 {
+	     Scanner sc = new Scanner(System.in);
+	     int t = sc.nextInt();
+	     while(t-->0){
+	         int n = sc.nextInt();
+	         int m = sc.nextInt();
+	         int[][] bm = new int[n][m];
+	         for(int i = 0;i<n;i++){
+	             for(int j = 0;j<m;j++){
+	                 bm[i][j] = sc.nextInt();
+	             }
+	         }
+	         int ans = helper(bm,n,m);
+	         System.out.println(ans);
+	     }
+	 //code
+	 }
+	 static class Pair{
+	     int i;
+	     int j;
+	     Pair(int i,int j){
+	         this.i = i;
+	         this.j = j;
+	     }
+	 }
+	 public static int helper(int[][] bm,int n,int m){
+	    int[][] dir =  {{0,-1},{0,1},{1,0},{-1,0}};
+	    
+        Deque<Pair> q = new ArrayDeque<>();
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(bm[i][j] == 0){
+                    q.add(new Pair(i,j));
+                }
+            }
+        }
+        
+        int time = -1;
+        while(!q.isEmpty()){
+            int size = q.size();
+            for(int i = 0;i<size;i++){
+                Pair cp = q.remove();
+                int x = cp.i;
+                int y = cp.j;
+                for(int k = 0;k<dir.length;k++){
+                    int r = x + dir[k][0];
+                    int c = y + dir[k][1];
+                    if((r >= 0 && r < n && c >= 0 && c < m && bm[r][c] == 1)){
+                        bm[r][c] = 0;
+                        q.add(new Pair(r,c));
+                    }
+                }
+            }
+            time++;
+        }
+        
+        return time;
+	 }
+}
