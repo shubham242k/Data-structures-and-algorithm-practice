@@ -1,0 +1,48 @@
+class Solution
+{
+    static class Pair implements Comparable<Pair>{
+        int val;
+        int wsf;
+        int par;
+        Pair(int val,int wsf,int par){
+            this.val = val;
+            this.wsf = wsf;
+            this.par = par;
+        }
+        
+        public int compareTo(Pair o){
+            return this.wsf - o.wsf;
+        }
+        
+    }
+    //Function to find sum of weights of edges of the Minimum Spanning Tree.
+    static int spanningTree(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj) 
+    {
+        int wt = 0;
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        boolean[] vis = new boolean[V];
+        pq.add(new Pair(0,0,-1));
+        while(!pq.isEmpty()){
+            Pair rem = pq.remove();
+            if(vis[rem.val] == true) continue;
+            vis[rem.val] = true;
+           
+            
+            // System.out.print(rem.val + ">");
+            for(ArrayList<Integer> nbrs : adj.get(rem.val)){
+                int nbr = nbrs.get(0);
+                int ws = nbrs.get(1);
+                if(vis[nbr] == false) 
+                    pq.add(new Pair(nbr,ws,rem.val));
+                else{
+                    if(rem.par == nbr){
+                        wt += ws;
+                    }
+                }
+            }
+        }
+        
+        return wt;
+        // Add your code here
+    }
+}
