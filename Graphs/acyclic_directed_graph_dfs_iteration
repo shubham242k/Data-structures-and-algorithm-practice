@@ -1,0 +1,51 @@
+class Solution {
+  
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        // code here
+        int[] vis = new int[V];
+     //0-white 1-gray 2-black
+        for(int i = 0;i<V;i++){
+            if(vis[i] == 0){
+                if(acyclic(adj,i,vis))
+                    return true;
+            }
+        }
+        
+        return false;
+       
+    }
+    static class Pair{
+        int v;
+        int tc;
+        Pair(int v,int tc){
+            this.v = v;
+            this.tc = tc;
+        }
+    }
+    public static boolean acyclic( ArrayList<ArrayList<Integer>> adj,int src,int[] vis){
+        Stack<Pair> s = new Stack<>();
+        s.push(new Pair(src,adj.get(src).size()));
+        while(!s.empty()){
+            Pair rem = s.peek();
+           
+            if(vis[rem.v] == 2){
+                s.pop();
+            }else{
+                if(rem.tc == 0){
+                    vis[rem.v] = 2;
+                }else{
+                    vis[rem.v] = 1;
+                    int nbr  = adj.get(rem.v).get(rem.tc-1);
+                    if(vis[nbr] == 1) return true;
+                    if(vis[nbr] == 0)
+                        s.push(new Pair(nbr,adj.get(nbr).size()));
+                    rem.tc--;
+                }
+            }
+            
+            
+        }
+        
+        return false;
+    }
+}
