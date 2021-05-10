@@ -1,0 +1,48 @@
+class Solution
+{
+    //Function to return the minimum cost to react at bottom
+	//right cell from top left cell.
+	class Pair implements Comparable<Pair>{
+	    int x;
+	    int y;
+	    int wsf;
+	    Pair(int x,int y,int wsf){
+	        this.x = x;
+	        this.y = y;
+	        this.wsf = wsf;
+	    }
+	    public int compareTo(Pair o){
+	        return this.wsf - o.wsf;
+	    }
+	}
+    public int minimumCostPath(int[][] grid)
+    {
+        int[] dx = {-1,0,1,0};
+        int[] dy = {0,1,0,-1};
+        int n = grid.length;
+        int m = grid[0].length;
+        boolean[][] vis = new boolean[n][m];
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.add(new Pair(0,0,grid[0][0]));
+        while(!pq.isEmpty()){
+            Pair rem = pq.remove();
+            if(vis[rem.x][rem.y] == true) continue;
+            vis[rem.x][rem.y] = true;
+            
+            if(rem.x == grid.length-1 && rem.y == grid[0].length-1){
+                return rem.wsf;
+            }
+            
+            for(int i = 0;i<4;i++){
+                int r = rem.x + dx[i];
+                int c = rem.y + dy[i];
+                if(r>=0 && r<grid.length && c>=0 && c<grid[0].length && vis[r][c] == false){
+                    pq.add(new Pair(r,c,rem.wsf + grid[r][c]));
+                }
+            }
+        }
+        return -1;
+        // Code here
+    }
+    
+}
