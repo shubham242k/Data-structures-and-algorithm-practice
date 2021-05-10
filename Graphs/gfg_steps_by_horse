@@ -1,0 +1,49 @@
+class Solution
+{
+    class Pair{
+        int x;
+        int y;
+        int d;
+        Pair(int x,int y,int d){
+            this.x = x;
+            this.y = y;
+            this.d = d;
+        }
+    }
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        boolean[][] vis = new boolean[N+1][N+1];
+        Deque<Pair> q = new ArrayDeque<>();
+        q.add(new Pair(KnightPos[0],KnightPos[1],0));
+        while(!q.isEmpty()){
+            Pair rem = q.remove();
+            if(vis[rem.x][rem.y] == true) continue;
+            
+            vis[rem.x][rem.y] = true;
+            
+            if(rem.x == TargetPos[0] && rem.y == TargetPos[1]){
+                return rem.d;
+            }
+            
+            if(isSafe(rem.x - 2,rem.y + 1,N,vis)) q.add(new Pair(rem.x-2,rem.y+1,rem.d+1));
+            if(isSafe(rem.x - 1,rem.y + 2,N,vis)) q.add(new Pair(rem.x-1,rem.y+2,rem.d+1));
+            if(isSafe(rem.x + 1,rem.y + 2,N,vis)) q.add(new Pair(rem.x+1,rem.y+2,rem.d+1));
+            if(isSafe(rem.x + 2,rem.y + 1,N,vis)) q.add(new Pair(rem.x+2,rem.y+1,rem.d+1));
+            if(isSafe(rem.x + 2,rem.y - 1,N,vis)) q.add(new Pair(rem.x+2,rem.y-1,rem.d+1));
+            if(isSafe(rem.x + 1,rem.y - 2,N,vis)) q.add(new Pair(rem.x+1,rem.y-2,rem.d+1));
+            if(isSafe(rem.x - 1,rem.y - 2,N,vis)) q.add(new Pair(rem.x-1,rem.y-2,rem.d+1));
+            if(isSafe(rem.x - 2,rem.y - 1,N,vis)) q.add(new Pair(rem.x-2,rem.y-1,rem.d+1));
+           
+        }
+        
+        return 0;
+    }
+    
+    public boolean isSafe(int r,int c,int N,boolean[][] vis){
+        if(r<=0 || c <= 0 || r>N || c>N || vis[r][c] == true){
+            return false;
+        }
+        return true;
+    }
+}
