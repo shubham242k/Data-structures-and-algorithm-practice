@@ -1,0 +1,26 @@
+class Solution {
+    static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
+        // code here
+        
+        boolean[] vis = new boolean[V];
+        int c =0;
+        for(int i = 0;i<V;i++){
+             for(int j = 0;j<V;j++){
+                    if(vis[j] == false && adj.get(i).get(j) == 1){
+                        dfs(adj,i,vis);
+                        c++;
+                    }
+             }
+        }
+        return c;
+    }
+    
+    public static void dfs(ArrayList<ArrayList<Integer>> adj,int r,boolean[] vis){
+        
+        vis[r] = true;
+        for(int j = 0;j<vis.length;j++){
+            if(adj.get(r).get(j) == 1 && vis[j] == false) dfs(adj,j,vis);
+        }
+        
+    }
+};

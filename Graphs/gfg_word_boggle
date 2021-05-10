@@ -1,0 +1,51 @@
+class Solution
+{
+    public String[] wordBoggle(char board[][], String[] dictionary)
+    {
+        
+        // Write your code here
+        int n = board.length;
+        int m = board[0].length;
+        ArrayList<String> l = new ArrayList<>();
+        // boolean[][] vis = new boolean[n][m];
+        for(String word : dictionary){
+            for(int i = 0;i<n;i++){
+                boolean flag = false;
+                for(int j = 0;j<m;j++){
+                    if(board[i][j] == word.charAt(0)){
+                        boolean[][] vis = new boolean[n][m];
+                         flag =  boggle(i,j,board,word,vis);
+                        if(flag){
+                            l.add(word);
+                            break; 
+                        }
+                    }
+                }
+                if(flag){
+                    break; 
+                }
+            }
+        }
+        String[] ans = l.toArray(new String[l.size()]);
+        return ans;
+    }
+    static int[] dx = {-1,-1,0,1,1,1,0,-1};
+    static int[] dy = {0,1,1,1,0,-1,-1,-1};
+    public boolean boggle(int r, int c ,char board[][], String word,boolean[][] vis){
+        if(word.length() == 0){
+            return true;
+        }
+        if(r<0 || c< 0 || r>=board.length || c>=board[0].length 
+            || vis[r][c] == true || word.charAt(0) != board[r][c]){
+                return false;
+        }
+        vis[r][c] = true;
+        
+        for(int i = 0;i<8;i++){
+            boolean f =  boggle(r + dx[i],c + dy[i],board,word.substring(1),vis);
+            if(f) return f;
+        }
+        vis[r][c] = false;
+        return false;
+    }
+}
