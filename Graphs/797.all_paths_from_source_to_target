@@ -1,0 +1,22 @@
+class Solution {
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        ml = new ArrayList<>();
+        dfs(graph,0,new ArrayList<>());
+        return ml;
+    }
+    static List<List<Integer>> ml;
+    public void dfs(int[][] graph,int src,List<Integer> l){
+        l.add(src);
+        if(src == graph.length-1){
+            ml.add(new ArrayList<>(l));
+            l.remove(l.size()-1);
+            return;
+        }
+        for(int i = 0;i<graph[src].length;i++){
+            dfs(graph,graph[src][i],l);
+        }
+        l.remove(l.size()-1;
+        }
+}
+
+//didn't use vis[] because of acyclic directed graph

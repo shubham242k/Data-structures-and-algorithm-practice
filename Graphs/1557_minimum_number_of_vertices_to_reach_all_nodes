@@ -1,0 +1,50 @@
+class Solution {
+    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+        boolean[] vis = new boolean[n];
+        
+        for(int i = 0 ; i < edges.size() ; i++ ){
+            vis[edges.get(i).get(1)] = true; 
+        }
+        List<Integer> res = new ArrayList<Integer>();
+        for(int i = 0 ; i < vis.length ; i++ ){
+            if(!vis[i]) res.add(i);
+        }
+        
+        return res;
+    }
+}
+
+//my Solution (TLE)
+
+class Solution {
+    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+        boolean[] vis = new boolean[n];
+        
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = 0;i<n;i++){
+            if(!vis[i]){
+                dfs(edges,i,vis,set);
+                set.add(i);
+            }
+        }
+        List<Integer> l = new ArrayList<>(set);
+        return l;
+    }
+    public void dfs(List<List<Integer>> edges,int src,boolean[] vis,HashSet<Integer> set){
+        vis[src] = true;
+        for(int i = 0 ; i < edges.size() ; i++ ){
+            int u = edges.get(i).get(0);
+            int v = edges.get(i).get(1);
+            if(u == src){
+                if(set.contains(v)){
+                    set.remove(v);
+                }
+                if(vis[v] == false){
+                    dfs(edges,v,vis,set);
+                }
+                
+            }
+            
+        }
+    }
+}
