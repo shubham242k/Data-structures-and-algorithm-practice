@@ -1,0 +1,21 @@
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        boolean[] vis = new boolean[rooms.size()];
+        if(dfs(rooms,0,vis) == vis.length){
+            return true;
+        }
+        return false;
+    }
+    
+    public int dfs(List<List<Integer>> rooms,int src,boolean[] vis){
+        vis[src] = true;
+        int sum = 0;
+        for(int nbr : rooms.get(src)){
+            if(vis[nbr] == false){
+                sum += dfs(rooms,nbr,vis);
+            }
+        }
+        
+        return sum + 1;
+    }
+}
