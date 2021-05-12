@@ -1,0 +1,29 @@
+class Solution {
+    public List<String> findItinerary(List<List<String>> tickets) {
+        List<String> answer = new ArrayList<>();
+        if(tickets== null|| tickets.isEmpty()){
+            return answer;
+        }
+        Map<String,PriorityQueue<String>> adjList = new HashMap<>();
+        for(List<String> ticket : tickets){
+            if(!adjList.containsKey(ticket.get(0))){
+                adjList.put(ticket.get(0),new PriorityQueue<>());
+            }
+            adjList.get(ticket.get(0)).offer(ticket.get(1));
+        }
+        dfs("JFK",adjList,answer);
+        Collections.reverse(answer);
+        return answer;                                  
+    }
+    
+     private void dfs(String node, Map<String,PriorityQueue<String>> adjList,List<String> answer) {
+         PriorityQueue<String> neighbours = adjList.get(node);
+         if(neighbours != null && !neighbours.isEmpty()){
+             while(!neighbours.isEmpty()){
+                  String neigh = neighbours.poll();
+                  dfs(neigh,adjList,answer);
+             }
+         }
+         answer.add(node);
+     }                     
+}
