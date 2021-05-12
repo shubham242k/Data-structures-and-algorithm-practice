@@ -1,0 +1,29 @@
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        List<Integer> set = new ArrayList<>();
+        
+        int[] vis = new int[graph.length];
+        for(int i = 0;i< graph.length;i++){
+            
+            if(!stateDfs(graph,vis,i) || vis[i] == 2){
+               set.add(i); 
+            }
+        }
+        return set;
+        
+    }
+    public boolean stateDfs(int[][] graph, int[] vis, int src) {
+        vis[src] = 1;
+        
+        for(int nbr : graph[src]) {
+            if(vis[nbr] == 0) {
+                boolean ans = stateDfs(graph, vis, nbr);
+                if(ans) return true;
+                
+            } else if(vis[nbr] == 1) return true;
+        }
+        
+        vis[src] = 2;
+        return false;
+    }
+}

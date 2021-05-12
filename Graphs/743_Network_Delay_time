@@ -1,0 +1,48 @@
+class Solution {
+    
+    class Edge implements Comparable<Edge>{
+        int val;
+        int wt;
+        Edge(int val,int wt){
+            this.val = val;
+            this.wt = wt;
+        }
+         public int compareTo(Edge o){
+            return this.wt - o.wt;
+        }
+    }
+    public int networkDelayTime(int[][] times, int n, int k) {
+        int[] duration = new int[n+1];
+        Arrays.fill(duration, -1);
+        ArrayList<Edge>[] graph = new ArrayList[n+1];
+        for(int i = 0;i<=n;i++){
+            graph[i] = new ArrayList<>();
+        }
+        
+        for(int i = 0;i<times.length;i++){
+            graph[times[i][0]].add(new Edge(times[i][1],times[i][2]));
+        }
+        
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        pq.add(new Edge(k,0));
+        int max = Integer.MIN_VALUE;
+        int t = 0;
+        if(graph[k].size()==0) return -1;
+        while(!pq.isEmpty()){
+            Edge rem = pq.remove();
+            if(duration[rem.val] != -1) continue;
+            t++;
+            duration[rem.val] = rem.wt;
+            if(max<rem.wt) max = rem.wt;
+            for(Edge e : graph[rem.val]){
+                if(duration[e.val] == -1){
+                    pq.add(new Edge(e.val,rem.wt + e.wt));
+                }
+            }
+        }
+        if(t<n) return -1;
+        else return max;
+    }
+    
+    
+}
