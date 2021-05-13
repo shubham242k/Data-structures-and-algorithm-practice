@@ -1,0 +1,59 @@
+class Solution {
+    int[] par;
+    
+    public int findpar(int u) {
+        if(par[u] == u) return par[u];
+        par[u] = findpar(par[u]);
+        return par[u];
+    }
+    
+    public int numSimilarGroups(String[] strs) {
+        if(strs.length == 0) return 0;
+        
+        par = new int[strs.length];
+        for(int i = 0; i < par.length; i++) par[i] = i;
+        
+       
+        for(int i = 0; i < strs.length; i++) {
+            String X = strs[i];
+            for(int j = i - 1 ; j >=0; j--) {
+                String Y = strs[j];
+                int p1 = findpar(i);
+                int p2 = findpar(j);
+
+                if(p1 != p2) {
+                    if(isSim(X, Y)) {
+                        par[p2] = p1;
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        
+        int components = 0;
+        
+        for(int i = 0; i < par.length; i++) {
+            if(par[i] == i) {
+                components++;
+            }
+        }
+        
+        return components;
+    }
+    
+    public boolean isSim(String X, String Y) { 
+        int count = 0;
+        
+        for(int i = 0; i < X.length(); i++) {
+            if(X.charAt(i) != Y.charAt(i)) {
+                count++;
+                if(count > 2) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
