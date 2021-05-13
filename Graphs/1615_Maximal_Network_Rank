@@ -1,0 +1,31 @@
+class Solution {
+    public int maximalNetworkRank(int n, int[][] roads) {
+        int[] troad = new int[n];
+        Set<Integer>[] graph = new HashSet[n];
+        for(int i = 0;i<n;i++) graph[i] = new HashSet<>();
+        
+        for(int i = 0;i<roads.length;i++){
+            troad[roads[i][0]]++;
+            troad[roads[i][1]]++;
+            graph[roads[i][0]].add(roads[i][1]);
+            graph[roads[i][1]].add(roads[i][0]);
+        }
+
+        int val = Integer.MIN_VALUE;
+        for(int i = 0;i<troad.length;i++){
+            for(int j = i+1;j<troad.length;j++){
+                if(graph[i].contains(j)){
+                if(val<troad[i]+troad[j] - 1){
+                    val = troad[i]+troad[j] - 1;
+                }
+                }else{
+                    if(val<troad[i]+troad[j]){
+                        val = troad[i]+troad[j];
+                    }
+                }
+            }
+        }
+       
+        return val;
+    }
+}
