@@ -1,0 +1,73 @@
+class Solution {
+    class Edge{
+        int val;
+        int wt;
+        Edge(int val,int wt){
+            this.val = val;
+            this.wt = wt;
+        }
+    }
+    class Pair implements Comparable<Pair>{
+        int val;
+        int wsf;
+        Pair(int val,int wsf){
+            this.val = val;
+            this.wsf = wsf;
+        }
+        public int compareTo(Pair o){
+            return this.wsf - o.wsf;
+        }
+    }
+    public int countRestrictedPaths(int n, int[][] edges) {
+        ArrayList<Edge>[] graph = new ArrayList[n+1];
+        for(int i = 0;i<graph.length;i++){
+            graph[i] = new ArrayList<>();
+        }
+        for(int i = 0;i<edges.length;i++){
+            graph[edges[i][0]].add(new Edge(edges[i][1],edges[i][2]));
+            graph[edges[i][1]].add(new Edge(edges[i][0],edges[i][2]));
+        }
+        
+        int[] dis = dijkstra(graph,n);
+        int[] vis = new int[n+1];
+        Arrays.fill(vis,-1);
+        return (int) dfs(graph,1,n,dis,vis);
+        
+    }
+    
+    public int[] dijkstra(ArrayList<Edge>[] graph,int src){
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.add(new Pair(src,0));
+        int[] dis = new int[graph.length];
+        Arrays.fill(dis,-1);
+        while(!pq.isEmpty()){
+            Pair rem = pq.remove();
+            if(dis[rem.val] != -1){
+                 continue;
+            }
+            dis[rem.val] = rem.wsf ;
+            for(Edge nbr : graph[rem.val]){
+                if(dis[nbr.val] == -1){
+                    pq.add(new Pair(nbr.val,(rem.wsf + nbr.wt)));
+                }
+            }
+        }
+        
+        return dis;
+    }
+    
+    public int dfs(ArrayList<Edge>[] graph,int src,int des,int[] dis,int[] vis){
+        if(src == des) return 1;
+        if(vis[src] != -1){
+            return vis[src];
+        }
+        int sum = 0;
+        for(Edge nbr : graph[src]){
+            if(dis[src]>dis[nbr.val]){
+                sum = (sum + dfs(graph,nbr.val,des,dis,vis)) % 1000000007;
+            }
+        }
+        vis[src] = sum;
+        return sum;
+    }
+}
