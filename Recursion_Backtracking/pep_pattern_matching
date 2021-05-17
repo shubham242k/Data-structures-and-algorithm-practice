@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static void solution(String str, String pattern, HashMap<Character,String> map,
+	                                                String op){
+		//write your code here
+		if(str.length() == 0 && pattern.length()==0){
+		    HashSet<Character> ac = new HashSet<>();
+		    for(char ch : op.toCharArray()){
+		        if(!ac.contains(ch)){
+		            System.out.print(ch + " -> " + map.get(ch)+ ", ");
+		            ac.add(ch);
+		        }
+		    }
+		    System.out.println(".");
+		    return;
+		}else if(str.length() == 0 || pattern.length()==0){
+		    return;
+		}
+		char ch = pattern.charAt(0);
+		if(map.containsKey(ch)){
+		    if(str.length()>= map.get(ch).length()){
+		        if(map.get(ch).equals(str.substring(0,map.get(ch).length()))){
+		            solution(str.substring(map.get(ch).length()),pattern.substring(1),map,op);
+		        }
+		    }
+		}else{
+		    for(int i = 0;i<str.length();i++){
+		        String part = str.substring(0,i+1);
+		        map.put(ch,part);
+		        solution(str.substring(i+1),pattern.substring(1),map,op);
+		        map.remove(ch);
+		    }
+		}
+	}
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String str = scn.next();
+		String pattern = scn.next();
+		HashMap<Character,String> map = new HashMap<>();
+		solution(str,pattern,map,pattern);
+	}
+}
