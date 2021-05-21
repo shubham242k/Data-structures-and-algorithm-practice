@@ -1,0 +1,190 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static boolean solution(char[][] arr, int[] top, int[] left, int[] right, int[] bottom, char[][] ans,int row, int col) {
+	    
+        if(row == arr.length-1 && col == arr[0].length){
+            if(allFinished(top,left,right,bottom,ans)){
+                print(ans);
+                return true;
+            }
+            return false;
+        }
+        
+        
+        if(col == arr[0].length){
+            col = 0;
+            row++;
+        }
+        // System.out.println(row + " " + col);
+        if(arr[row][col] == 'R' || arr[row][col] == 'B'){
+           boolean f = solution(arr,top,left,right,bottom,ans,row,col+1);
+           if(f) return true;
+        }else{
+            if(arr[row][col] == 'L'){
+                   //place - + 
+                if(placeSafe(ans,row,col,'+') && placeSafe(ans,row,col+1,'-')){
+                    ans[row][col] = '+';
+                    ans[row][col+1] = '-';
+                    boolean f = solution(arr,top,left,right,bottom,ans,row,col+2);
+                    ans[row][col] = '\u0000';
+                    ans[row][col+1] = '\u0000';
+                    if(f) return true;
+                } 
+                if(placeSafe(ans,row,col,'-') && placeSafe(ans,row,col+1,'+')){
+                    ans[row][col] = '-';
+                    ans[row][col+1] = '+';
+                    boolean f = solution(arr,top,left,right,bottom,ans,row,col+2);
+                    ans[row][col] = '\u0000';
+                    ans[row][col+1] = '\u0000';
+                    if(f) return true;
+                }
+                
+                {//place X X
+                    ans[row][col] = 'X';
+                    ans[row][col+1] = 'X';
+                    boolean f = solution(arr,top,left,right,bottom,ans,row,col+2);
+                    ans[row][col] = '\u0000';
+                    ans[row][col+1] = '\u0000';
+                    if(f) return true;
+                }
+                
+            }else if(arr[row][col] == 'T'){
+                
+                if(placeSafe(ans,row,col,'+') && placeSafe(ans,row+1,col,'-')){
+                    ans[row][col] = '+';
+                    ans[row+1][col] = '-';
+                    boolean f = solution(arr,top,left,right,bottom,ans,row,col+1);
+                    ans[row][col] = '\u0000';
+                    ans[row+1][col] = '\u0000';
+                    if(f) return true;
+                }  
+                if(placeSafe(ans,row,col,'-') && placeSafe(ans,row+1,col,'+')){
+                        
+                    ans[row][col] = '-';
+                    ans[row+1][col] = '+';
+                    boolean f = solution(arr,top,left,right,bottom,ans,row,col+1);
+                    ans[row][col] = '\u0000';
+                    ans[row+1][col] = '\u0000';
+                    if(f) return true;
+                }
+                 
+                {//place X X
+                    
+                    ans[row][col] = 'X';
+                    ans[row+1][col] = 'X';
+                    boolean f = solution(arr,top,left,right,bottom,ans,row,col+1);
+                    ans[row][col] = '\u0000';
+                    ans[row+1][col] = '\u0000';
+                    if(f) return true;
+                }    
+            }
+        }
+		
+		return false;
+
+	}
+	
+	public static boolean allFinished(int[] top, int[] left, int[] right, int[] bottom, char[][] ans){
+	   
+	   for(int i = 0;i<ans.length;i++){
+            int countHp = 0;
+            int countHn = 0;
+	       for(int j = 0;j<ans[0].length;j++){
+	           if(ans[i][j] == '+'){
+	               countHp++;
+	           }else if(ans[i][j] == '-'){
+	               countHn++;
+	           }
+	       }
+	       if(left[i]!=-1 && left[i] != countHp){
+	           return false;
+	       }
+	       if(right[i] != -1 && right[i] != countHn){
+	           return false;
+	       }
+	   }
+	   
+	   for(int j = 0;j<ans[0].length;j++){
+            int countVp = 0;
+            int countVn = 0;
+	       for(int i = 0;i<ans.length;i++){
+	           if(ans[i][j] == '+'){
+	               countVp++;
+	           }else if(ans[i][j] == '-'){
+	               countVn++;
+	           }
+	       }
+	       if(top[j]!=-1 && top[j] != countVp){
+	           return false;
+	       }
+	       if(bottom[j] != -1 && bottom[j] != countVn){
+	           return false;
+	       }
+	   }
+	   
+	   
+	    return true;
+	}
+	
+	public static boolean placeSafe(char[][] ans,int row,int col,char sign){
+	    if(row - 1 >=0 && ans[row-1][col] == sign){
+	        return false;
+	    }
+	    if(row + 1 < ans.length && ans[row+1][col] == sign){
+	        return false;
+	    }
+	    if(col-1 >=0 && ans[row][col-1] == sign){
+	        return false;
+	    }
+	    if(col+1 < ans[0].length && ans[row][col+1] == sign){
+	        return false;
+	    }
+	    
+	    return true;
+	}
+
+    
+	public static void print(char[][] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[0].length; j++) {
+				System.out.print(arr[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int m = scn.nextInt();
+		int n = scn.nextInt();
+		char[][] arr = new char[m][n];
+		for (int i = 0; i < arr.length; i++) {
+			String str = scn.next();
+			arr[i] = str.toCharArray();
+		}
+		int[] top = new int[n];
+		for (int i = 0; i < n; i++) {
+			top[i] = scn.nextInt();
+		}
+		int[] left = new int[m];
+		for (int i = 0; i < m; i++) {
+			left[i] = scn.nextInt();
+		}
+		int[] right = new int[m];
+		for (int i = 0; i < m; i++) {
+			right[i] = scn.nextInt();
+		}
+		int[] bottom = new int[n];
+		for (int i = 0; i < n; i++) {
+			bottom[i] = scn.nextInt();
+		}
+
+        boolean f = solution(arr,top,left,right,bottom,new char[arr.length][arr[0].length],0,0);
+		if(!f)System.out.println("No Solution");
+	}
+
+	
+}
