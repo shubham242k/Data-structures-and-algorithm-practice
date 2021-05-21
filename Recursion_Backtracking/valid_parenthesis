@@ -1,0 +1,63 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        String ns = "";
+        for(char ch : s.toCharArray()){
+            if(ch == '[' || ch == ']' || ch == '{' || ch == '}' || ch == ')' || ch == '('){
+                ns+=ch;
+            }
+        }
+        if(ns.length()%2 != 0){
+            // System.out.println(ns.length());
+            System.out.println(false);
+            return;
+        }
+        gidx = 1;
+        boolean valid = isValid(ns,ns.charAt(0));
+        System.out.println(valid);
+       
+    }
+    static int gidx;
+    public static boolean isValid(String s,char cc){
+        if(gidx == s.length()){
+            return false;
+        }
+        
+        while(gidx<s.length()){
+            char nc = s.charAt(gidx);
+            
+            gidx++;
+            if(cc == '('){
+                if(nc == ')'){
+                    return true;
+                }else if(nc == '}' || nc == ']'){
+                    return false;
+                }
+            }else if(cc == '{'){
+                if(nc == '}'){
+                    return true;
+                }else if(nc == ')' || nc == ']'){
+                    return false;
+                }   
+            }else if(cc == '['){
+                if(nc == ']'){
+                    return true;
+                }else if(nc == '}' || nc == ')'){
+                    return false;
+                }
+            }
+            boolean f;
+            f = isValid(s,nc); 
+            if(!f) return false;
+        }
+        
+        return true;
+        
+    }
+
+}
