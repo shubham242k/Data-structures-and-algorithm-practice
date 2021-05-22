@@ -1,0 +1,30 @@
+class Solution {
+    public int totalNQueens(int n) {
+        boolean[] ver = new boolean[n];
+        boolean[] ldiag = new boolean[2*n-1];
+        boolean[] rdiag = new boolean[2*n-1];
+        
+        return chess(0,ver,ldiag,rdiag,n);
+    }
+    
+    public int chess(int r,boolean[] ver,boolean[] ldiag,boolean[] rdiag,int n){
+        if(r == n){
+            return 1;
+        }
+        
+        int sum = 0;
+        for(int i = 0;i<n;i++){
+            if(ver[i] == false && ldiag[i+r] == false && rdiag[r-i + n-1] == false){
+                ver[i] = true;
+                ldiag[i+r] = true;
+                rdiag[r-i + n-1] = true;
+                sum +=chess(r+1,ver,ldiag,rdiag,n);
+                ver[i] = false;
+                ldiag[i+r] = false;
+                rdiag[r-i + n-1] = false;
+            }
+        }
+        
+        return sum;
+    }
+}
