@@ -1,0 +1,24 @@
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ml = new ArrayList<>();
+        helper(1,k,new ArrayList<>(),ml,n);
+        return ml;
+    }
+    
+    public void helper(int val,int k,List<Integer> l,List<List<Integer>> ml,int n){
+        if(k == 0){
+            ml.add(new ArrayList<>(l));
+            return;
+        }
+        if(val == n+1 || k > n+1 - val){
+            return;
+        }
+        
+        l.add(val);
+        helper(val+1,k-1,l,ml,n);
+        l.remove(l.size()-1);
+        
+        helper(val+1,k,l,ml,n);
+    
+    }
+}
