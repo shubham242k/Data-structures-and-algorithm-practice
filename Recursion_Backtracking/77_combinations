@@ -1,24 +1,24 @@
 class Solution {
     public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> ml = new ArrayList<>();
-        helper(1,k,new ArrayList<>(),ml,n);
+        helper(n,k,new ArrayList<>(),ml);
         return ml;
     }
     
-    public void helper(int val,int k,List<Integer> l,List<List<Integer>> ml,int n){
+    public void helper(int val,int k,List<Integer> l,List<List<Integer>> ml){
         if(k == 0){
             ml.add(new ArrayList<>(l));
             return;
         }
-        if(val == n+1 || k > n+1 - val){
+        if(val == 0 || k > val){
             return;
         }
         
         l.add(val);
-        helper(val+1,k-1,l,ml,n);
+        helper(val-1,k-1,l,ml);
         l.remove(l.size()-1);
         
-        helper(val+1,k,l,ml,n);
+        helper(val-1,k,l,ml);
     
     }
 }
