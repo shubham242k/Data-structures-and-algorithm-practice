@@ -1,0 +1,63 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static int solution(long n) {
+        //write your code here
+        int res = 0;
+        while(n!=1){
+            if(n == 3){
+                res += 2;
+                return res;
+            }
+            if(n%2 == 0){
+                n/=2;
+            }else{
+                long pnum = n + 1;
+                long snum = n - 1;
+                long prsb = pnum & (-pnum);
+                long srsb = snum & (-snum);
+                long pc = 0;
+                long sc = 0;
+                while(prsb != 0){
+                    pnum = pnum - prsb;
+                    prsb = pnum & (-pnum);
+                    pc++;
+                }
+                while(srsb != 0){
+                    snum = snum - srsb;
+                    srsb = snum & (-snum);
+                    sc++;
+                }
+                
+                if(pc < sc){
+                    n = n+1;
+                }else if(pc > sc){
+                    n = n-1;
+                }else{
+                    long prb = (n+1) & (-(n+1));
+                    long srb = (n-1) & (-(n-1));
+                    if(prb > srb){
+                        n = n+1;
+                    }else{
+                        n = n-1;
+                    }
+                }
+            }
+            
+            res++;
+        }
+        
+        return res;
+        
+    }
+    
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+        System.out.println(solution(n));
+    }
+	
+	
+}
