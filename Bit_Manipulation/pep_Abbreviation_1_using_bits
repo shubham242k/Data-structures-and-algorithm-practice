@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void solve(String str){
+        // write your code here
+        int t = 1 << str.length(); 
+        for(int num = 0;num<t;num++){
+             StringBuilder sb = new StringBuilder(); 
+             int c = 0;
+            for(int i = 0;i<str.length();i++){
+                int bit = str.length() - 1 - i;
+                if(((1 << bit) & num)  == 0){
+                    if(c == 0){
+                        sb.append(str.charAt(i));
+                    }else{
+                        sb.append(c);
+                        sb.append(str.charAt(i));
+                        c = 0; 
+                    }
+                }else{
+                    c++;
+                }
+            }
+            
+            if(c > 0){
+                sb.append(c);
+            }
+            System.out.println(sb);
+        }
+        
+    }
+    
+	public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        String str = scn.nextLine();
+        solve(str);
+    }
+}
