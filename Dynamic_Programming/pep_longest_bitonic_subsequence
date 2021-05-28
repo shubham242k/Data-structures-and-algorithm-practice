@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int[] a =  new int[n];
+        for(int i = 0;i<n;i++){
+            a[i] = s.nextInt();
+        }
+        int max = 0;
+        int[] ddp = new int[n];
+        for(int i = a.length-1;i>=0;i--){
+            int sum = 0;
+            for(int j = i + 1;j<a.length;j++){
+                if(a[i] > a[j]){
+                    sum  = Math.max(sum,ddp[j]);
+                }
+            }
+            
+            ddp[i] = sum + 1;
+        }
+        
+        int[] idp = new int[n];
+        for(int i = 0;i<a.length;i++){
+            int sum = 0;
+            for(int j = 0;j<i;j++){
+                if(a[i] >= a[j]){
+                    sum  = Math.max(sum,idp[j]);
+                }
+            }
+            
+            idp[i] = sum + 1;
+        }
+        
+        
+        for(int i = 0;i<n;i++){
+            if(max < ddp[i] + idp[i] - 1){
+                max = ddp[i] + idp[i] - 1;
+            }
+        }
+        System.out.println(max);
+    }
+
+}

@@ -1,0 +1,95 @@
+//recursion
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(int n){
+		//write your code here
+        if(n == 1 || n==0){
+            return n;
+        }
+        int min = Integer.MAX_VALUE;
+        for(int i = 1; i*i <= n;i++){
+            min = Math.min(min,solution(n - (i*i)));
+        }
+        
+        return min + 1;
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		System.out.println(solution(n));
+	}	
+}
+
+//memoisation
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(int n,Integer[] dp){
+		//write your code here
+        if(n == 1 || n==0){
+            dp[n] = n;
+            return n;
+        }
+        int min = Integer.MAX_VALUE;
+        for(int i = 1; i*i <= n;i++){
+            if(dp[n - (i*i)] == null){
+                min = Math.min(min,solution(n - (i*i),dp));
+            }else{
+                min = Math.min(min,dp[n - (i*i)]);
+            }
+            
+        }
+        dp[n] = min + 1;
+        return dp[n];
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		Integer[] dp = new Integer[n + 1];
+		System.out.println(solution(n,dp));
+	}
+	
+}
+
+//tabulation
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(int n){
+		//write your code here
+        if(n == 1 || n==0){
+            return n;
+        }
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[0] = 0;
+        dp[1] = 1;
+        for(int i = 2; i <=n;i++){
+            for(int j = 1; j * j <= i;j++){
+                dp[i] = Math.min(dp[i],dp[i - (j * j)]);
+            }
+            dp[i]++;
+        }
+        
+        return dp[n];
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		int n = scn.nextInt();
+		
+		System.out.println(solution(n));
+	}
+	
+}
