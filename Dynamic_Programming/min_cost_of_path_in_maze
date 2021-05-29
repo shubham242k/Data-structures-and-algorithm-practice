@@ -1,41 +1,79 @@
- //memoization
- public static int mcp_memo(int[][] maze,Integer[][] lu,int row,int col){
-        if(row == maze.length-1 && col == maze[0].length-1){
-            lu[row][col] = maze[row][col];
-            return maze[row][col];
-        }
-        if(row==maze.length || col == maze[0].length || row<0||col<0){
-            return Integer.MAX_VALUE;
-        }
-        if(lu[row][col]!=null){
-            return lu[row][col];
-        }
-        int costh = mcp(maze,lu,row,col+1);
-        int costv = mcp(maze,lu,row+1,col);
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int m = s.nextInt();
+        int[][] maze = new int[n][m];
         
-        lu[row][col] = Math.min(costv,costh) + maze[row][col];
-        return lu[row][col];
-        
-    }
-    //tabulation 
-    public static int mcp_tab(int[][] maze,Integer[][] lu){
-       
-        for(int i = lu.length-1 ;i>=0;i--){
-            for(int j = lu[0].length-1;j>=0;j--){
-                if(i==lu.length-1 && j == lu[0].length-1){
-                    lu[i][j] =maze[i][j];
-                }
-                else if(i==lu.length-1){
-                    lu[i][j] =maze[i][j] + lu[i][j+1];
-                }else if(j == lu[0].length-1){
-                    lu[i][j] =maze[i][j] + lu[i+1][j];
-                }else{
-                    lu[i][j] = Math.min(lu[i+1][j],lu[i][j+1]) + maze[i][j];
-                }
+        for(int i = 0;i<n;i++){
+            for(int j = 0; j < m; j++){
+                maze[i][j] = s.nextInt();
             }
         }
         
-        return lu[0][0];
+        Integer[][] dp = new Integer[n][m];
+        int min = mincostmemo(maze,0,0,n-1,m-1,dp);
+        
+        System.out.println(min);
+    }
+    //tabulation
+    public static int mincosttab(int[][] maze,int[][]dp){
+        int n = maze.length;
+        int m = maze[0].length;
+        
+        for(int i = n-1;i>=0;i--){
+            for(int j = m - 1;i>=0;j--){
+                if(j == m - 1 && i == n - 1 ){
+                    dp[n-1][m-1] = maze[i][j];
+                }else if(i == n - 1){
+                    dp[i][j] = dp[i][j + 1] + maze[i][j]; 
+                }else if(j == m - 1){
+                    dp[i][j] = dp[i + 1][j] + maze[i][j]; 
+                }else{
+                    dp[i][j] = Math.min(dp[i + 1][j], dp[i][j + 1]) +  maze[i][j];
+                }
+            }
+        }
+        return dp[0][0];
+    }
+    
+    //memoization
+     public static int mincostmemo(int[][] maze,int sr,int sc,int dr,int dc,Integer[][] dp){
+        if(sr == dr && sc == dc){
+            return maze[sr][sc];
+        }
+        
+        if(sr<0 || sc <0 || sr>=maze.length || sc >= maze[0].length){
+            return Integer.MAX_VALUE;
+        }
+        if(dp[sr][sc] != null){
+            return dp[sr][sc];
+        }
+      int max = Math.min(mincostmemo(maze,sr+1,sc,dr,dc,dp)
+                                            ,mincostmemo(maze,sr,sc+1,dr,dc,dp));
+        
+        dp[sr][sc] = max + maze[sr][sc];
+        return dp[sr][sc] ;
+    }
+    
+    //recursion
+    public static int mincost(int[][] maze,int sr,int sc,int dr,int dc){
+        if(sr == dr && sc == dc){
+            return maze[sr][sc];
+        }
+        
+        if(sr<0 || sc <0 || sr>=maze.length || sc >= maze[0].length){
+            return Integer.MAX_VALUE;
+        }
+        
+        int max = Math.min(mincost(maze, sr+1,sc ,dr ,dc ),mincost(maze,sr ,sc+1, dr , dc));
+        
+        return max + maze[sr][sc];
     }
 
 }
