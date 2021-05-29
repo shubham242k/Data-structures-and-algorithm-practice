@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    class Pair{
+        TreeNode left;
+        TreeNode right;
+        
+        Pair(TreeNode left,TreeNode right){
+            this.left = left;
+            this.right = right;
+        }
+    }
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return true;
+        Stack<Pair> s = new Stack<>();
+        s.push(new Pair(root.left,root.right));
+        while(!s.empty()){
+            Pair rem = s.pop();
+            if(rem.left == null || rem.right == null){
+                if(rem.left != rem.right)
+                    return false;
+                else{
+                    continue;
+                }
+            }
+            
+            else if(rem.left.val == rem.right.val){
+                s.push(new Pair(rem.left.left,rem.right.right));
+                s.push(new Pair(rem.left.right,rem.right.left));
+            }else{
+                return false;
+            }
+        }
+        
+        return true;
+        // return helper(root.left,root.right);
+    }
+    
+    public boolean helper(TreeNode lroot,TreeNode rroot){
+        if(lroot == null && rroot == null){
+            return true;
+        }else if(lroot == null ||  rroot == null){
+            return false;
+        }
+        if(lroot.val != rroot.val){
+            return false;
+        }
+        return helper(lroot.left,rroot.right) && helper(lroot.right,rroot.left);
+        
+    }
+    
+  
+}

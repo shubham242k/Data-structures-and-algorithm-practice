@@ -1,0 +1,27 @@
+class Solution {
+    public Node connect(Node root) {
+        if(root == null) return root;
+        Node next = root.next;
+        while(next != null){
+            if(next.left != null){
+                next = next.left;
+                break;
+            }else if(next.right !=null){
+                next = next.right;
+                break;
+            }else{
+                next = next.next;
+            }
+        }
+        if(root.right != null){
+            root.right.next = next;
+        }
+        if(root.left != null){
+             root.left.next = root.right!=null?root.right : next;
+        }
+        connect(root.right);
+        connect(root.left);
+        
+        return root;
+    }
+}
