@@ -1,0 +1,25 @@
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner scn = new Scanner(System.in);
+        String str = scn.next();
+        
+        //write your code here
+        // count(str,0,"");
+        
+        long[] dp = new long[str.length()+1];
+        dp[0] = 1;
+        HashMap<Character,Integer> m = new HashMap<>();
+        for(int i = 1;i<dp.length;i++){
+            dp[i] = dp[i-1] * 2;
+            char ch = str.charAt(i-1);
+            if(m.containsKey(ch)){
+                dp[i] -= dp[m.get(ch)-1];
+            }
+            m.put(ch,i);
+        }
+        System.out.println(dp[str.length()]-1);
+    }
+    
+}
