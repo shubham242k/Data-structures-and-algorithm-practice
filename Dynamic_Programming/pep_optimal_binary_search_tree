@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+  
+  private static void optimalbst(int[] keys, int[] freq, int n) {
+    //write your code here
+    
+        int[][] dp = new int[n][n];
+        int[] psum = new int[n];
+        psum[0] = freq[0];
+        for(int i = 1;i<n;i++){
+            psum[i] = psum[i-1] + freq[i];
+        }
+        for(int g = 0;g<n; g++){
+            for(int i = 0,j = g;j < n;i++,j++){
+                if(g == 0){
+                    dp[i][j] = freq[i];
+                }
+                else{
+                    int min = Integer.MAX_VALUE;
+                    int f = psum[j] - ((i == 0)?0 : psum[i-1]);
+                    
+                    for(int k = i;k<=j;k++){
+                        int left = (k==i)?0 : dp[i][k-1];
+                        int right = (k == j)?0 : dp[k+1][j];
+                        
+                        
+                        min = Math.min(min,left + right + f);
+                    }
+                    
+                    dp[i][j] = min;
+                }
+            }
+        }
+        
+        System.out.println(dp[0][n-1]);
+        
+	}
+
+    public static void main(String[] args) {
+    	Scanner scn = new Scanner(System.in);
+    	int n = scn.nextInt();
+    	int[] keys = new int[n];
+    	int[] frequency = new int[n];
+        for(int i= 0 ;i < n ; i++) {
+    		keys[i] = scn.nextInt();
+    	}
+    	for(int i = 0 ; i < n; i++){
+          frequency[i] = scn.nextInt();
+        }
+    	optimalbst(keys,frequency,n);
+	}
+
+}

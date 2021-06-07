@@ -1,0 +1,114 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(String str1, String str2) {
+		//write your code here
+        // HashMap<String,Pair> dp = new HashMap<>();
+		return solution1(str1,str2);
+	}
+	static class Pair{
+	    int tc;
+	    int fc;
+	    Pair(int tc,int fc){
+	        this.tc = tc;
+	        this.fc = fc;
+	    }
+	}
+	public static Pair helper(String str1, String str2,int s,int e,
+	HashMap<String,Pair> dp){
+	   if(s == e){
+	       if(str1.charAt(s) == 'T'){
+	           return new Pair(1,0);
+	       }else{
+	           return new Pair(0,1);
+	       }
+	   }
+	   
+	   if(dp.containsKey(s + " " + e)){
+	       return dp.get(s + " " + e);
+	   }
+	   int mtc = 0, mfc = 0;
+	   for(int i = s;i<e;i++){
+	       Pair lp = helper(str1,str2,s,i,dp);
+	       Pair rp = helper(str1,str2,i+1,e,dp);
+	       char oper = str2.charAt(i);
+	       if(oper == '|'){
+	           mtc += (lp.tc * rp.fc) + (lp.tc * rp.tc) + (lp.fc * rp.tc);
+	           mfc += (lp.fc * rp.fc);
+	       }else if(oper == '&'){
+	           mtc += (lp.tc * rp.tc);
+	           mfc += (lp.tc * rp.fc) + (lp.fc * rp.fc) + (lp.fc * rp.tc);
+	       }else{
+	           mtc += (lp.tc * rp.fc) + (lp.fc * rp.tc);
+	           mfc += (lp.tc * rp.tc) + (lp.fc * rp.fc);
+	       }
+	   }
+	   
+	   Pair mp = new Pair(mtc,mfc);
+	   dp.put(s + " " + e,mp);
+	   return mp;
+	}
+
+
+public static int solution1(String str1, String str2){
+        int len = str1.length();
+        
+        int[][] tdp = new int[len][len];
+        int[][] fdp = new int[len][len];
+        
+    for(int g = 0;g<len;g++){
+        for(int i = 0,j = i+g; j<len ;j++,i++){
+            if(g == 0){ 
+                if(str1.charAt(i) == 'T'){
+                    tdp[i][j] = 1;
+                }else{
+                    fdp[i][j] = 1;
+                }
+            }else{
+                int tc = 0;
+                int fc = 0;
+                for(int k = i ; k < j;k++){
+                    char oper = str2.charAt(k);
+                    if(oper == '|'){
+                        tc += (tdp[i][k] * tdp[k+1][j]) + 
+                                (tdp[i][k] * fdp[k+1][j]) + 
+                                    (fdp[i][k] * tdp[k+1][j]);
+                        
+                        fc += (fdp[i][k] * fdp[k+1][j]);
+                    }else if(oper == '&'){
+                        tc += (tdp[i][k] * tdp[k+1][j]);
+                        
+                        fc += (tdp[i][k] * fdp[k+1][j]) + 
+                                (fdp[i][k] * tdp[k+1][j]) + 
+                                     (fdp[i][k] * fdp[k+1][j]);
+                    }else{
+                        tc += (tdp[i][k] * fdp[k+1][j]) + 
+                                (fdp[i][k] * tdp[k+1][j]);
+                        
+                        fc += (fdp[i][k] * fdp[k+1][j]) + 
+                                (tdp[i][k] * tdp[k+1][j]);
+                    }
+                }
+                
+                
+                tdp[i][j] = tc;
+                fdp[i][j] = fc;
+                
+            }
+        }
+    }
+    
+    return tdp[0][len-1];
+}
+    
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1, s2));
+	}
+
+}

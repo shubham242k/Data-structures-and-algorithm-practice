@@ -1,0 +1,73 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int minScoreTriangulation(int[] arr) {
+		//write your code here
+		return helper_tab(arr);
+// 		return helper(arr,0,arr.length-1,new Integer[arr.length][arr.length]);
+    }
+    
+    public static int helper(int[] arr,int s,int e,Integer[][] dp){
+        int size = e - s + 1;
+        
+        if(size == 3){
+            return arr[s] * arr[s + 1] * arr[e];
+        }
+        if(size < 3){
+            return 0;
+        }
+        if(dp[s][e] != null){
+            return dp[s][e];
+        }
+        int min = Integer.MAX_VALUE;
+        for(int i = s+1;i<e;i++){
+            int ts = helper(arr,i,e,dp) + helper(arr,s,i,dp) + (arr[s] * arr[i] * arr[e]);
+            // System.out.println(ts);
+            if(ts < min){
+                
+                min = ts;
+            }
+        }
+        dp[s][e] = min;
+        // System.out.println(min);
+        // System.out.println(">>>>>");
+        
+        return min;
+        
+    }
+    
+    public static int helper_tab(int[] arr){
+        int n = arr.length;
+        int[][] dp = new int[n][n];
+        
+        for(int g = 0;g < n;g++){
+            for(int i = 0,j = i+g;j<n;j++,i++){
+                if(g==0 || g == 1){
+                    dp[i][j] = 0;
+                }
+                else if(g == 2){
+                    dp[i][j] = arr[i] * arr[i+1] * arr[j];
+                }else{
+                    int min = Integer.MAX_VALUE;
+                    for(int k = i+1;k<j;k++){
+                      min = Math.min(min,dp[i][k] + dp[k][j] + (arr[i] * arr[k] * arr[j]));
+                    }
+                    dp[i][j] = min;
+                }
+            }
+        }
+        
+        return dp[0][n-1];
+    }
+  public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+        int n = scn.nextInt();
+        int[] arr = new int[n];
+		for(int i = 0 ; i  < n; i++){
+            arr[i] = scn.nextInt();
+        }
+        System.out.println(minScoreTriangulation(arr));
+	}
+}
