@@ -1,0 +1,24 @@
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+
+        List<Integer> l = new ArrayList<Integer>();
+        helper(root,l,0);
+        return l;
+    }
+    
+    public void helper(TreeNode root, List<Integer> l,int d){
+        if(root == null){
+            return;
+        }
+        
+        if(d == l.size()){
+            l.add(root.val);
+        }else{
+            l.set(d,Math.max(root.val,l.get(d)));
+        
+        }
+        
+        helper(root.left,l,d+1);
+         helper(root.right,l,d+1);
+    }
+}
